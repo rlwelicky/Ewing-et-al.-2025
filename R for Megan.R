@@ -2,7 +2,11 @@
 
 #First we will make a project on Github and link it your Git
 
+<<<<<<< HEAD
 #R is finicky and can be annoying, but gets easier with time, particulary easier when you know what terms to google... #Nevertheless, she persisted...
+=======
+#R is finicky and can be annoying, but gets easier with time, particulary easier when you know what terms too google... #Nevertheless, she persisted...
+>>>>>>> 42e2734a74cbd4eed2dc8991ea15f914a886c10f
 
 #In R, you'll need to download packages to use certain functions. Once the packages are downloaded you call them in with the library function. Look below for the names of packages <library(package)> and search for them using the install button on the right corner packages tab.
 
