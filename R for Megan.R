@@ -59,12 +59,21 @@ descriptivestats<-liondata %>%
     meanheartN = mean(heart_n,na.rm=TRUE),
     sdheartB = sd(heart_n, na.rm = TRUE))
 
+
 #lets visualize our data by making a figure using the new dataframe we just created
-trophicfig<-ggplot(data = descriptivestats, aes(x = meanmuscleC,y = meanmuscleN)) + 
+#Megan try followingmodifying the code below as well as taking direction from this website: https://gist.github.com/AndrewLJackson/b16fb216d8a9a96c20a4a979ec97e7b0
+m<-ggplot(data = descriptivestats, aes(x = meanmuscleC,y = meanmuscleN), color = depth.categorical.) + 
   #note x is carbon and y = nitrogen, just like isoscapes, which we are in the process of making here
   geom_point(color = "#00529c") + 
-  geom_errorbar(aes(ymin = sdmuscleN,ymax = sdmuscleN)) + 
-  geom_errorbarh(aes(xmin = sdmuscleC,xmax = sdmuscleC))  
+  geom_errorbar(aes(ymin = (meanmuscleN-sdmuscleN),ymax = (meanmuscleN + sdmuscleN))) + 
+  geom_errorbarh(aes(xmin = (meanmuscleC-sdmuscleC),xmax = (meanmuscleC +sdmuscleC))) 
+
+ms<- musclefig +
+  
+  
+  
+msh<- ms +   
+  
   #you will copy and paste all the above code and do it with scale and heart, too, and change the color. you can choose colors by searching hex color pallete on google and entering the numeric hex code in "". 
 
 #The most critical thing to do before any modeling is to check if our data are normally distributed. We can visualiz the raw data, and for best practices, we then visualize the residuals of the data
