@@ -18,9 +18,16 @@ library(lmtest)
 library(car)
 library(ggplot2)
 library(cowplot)
+library(lme4)
+
 
 #Okay, lets read in the files and packages we will use for data analysis. If the files is stored in your R project, all you need is a read.csv command! below you will see I am calling in the csv called lionfish data and from here out I'm calling this datasheet/dataframe "lion"
 lion<-read.csv("0702-lionfishdata.csv", header=TRUE)
+#could you please go back to the original datasheet you just read in and remove any extra spaces inthe variable names. Then remove the extra periods thruout the sheet. Then read in the file again.
+#also please make sure the depth for each row is filled in or left blank if unknown.
+
+
+
 
 #check that the factors are properply called numeric or charachter; if they're not correct we can fix that.
 #lets just start with some descriptive statistics (mean, standard deviation, standard errror)
@@ -44,7 +51,7 @@ liondata<-lion %>%
   filter(calibration == "single" |calibration == "average")
 
 descriptivestats<-liondata %>% 
-  group_by(depth.categorical., na.rm = TRUE)%>% 
+  group_by(depth.categorical.)%>% 
   summarize(
     meanmuscleC = mean(muscle_c,na.rm=TRUE),
     sdmuscleC = sd(muscle_c, na.rm = TRUE),
@@ -88,5 +95,12 @@ resmuscle_c$scaledResiduals
 testUniformity(resmuscle_c)
 
 #muscle_c is normal (Kolmogorov-Smirnov, p=0.1368)
+
+#How does depth influence the diet of lionfish (using muscle tissue)? This format is response variable ~ indp factor + indp factor + indfactor interacts with other indp factor. We are using SL.mm*depth.categorical bc its likely at shallow depths there is more culling and so we might only find smaller/younger lionfish.  Repeat this formatting for scale and heart. 
+
+mcresults<-lm(muscle_c ~ SL..mm. + depth.categorical. + SL..mm.*depth.categorical., data = liondata)
+summary(mcresults)
+mnresults<-lm(muscle_n ~ SL..mm. + depth.categorical. + SL..mm.*depth.categorical., data = liondata)
+summary(mnresults)
 
 
