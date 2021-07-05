@@ -23,7 +23,11 @@ library(lme4)
 
 #Okay, lets read in the files and packages we will use for data analysis. If the files is stored in your R project, all you need is a read.csv command! below you will see I am calling in the csv called lionfish data and from here out I'm calling this datasheet/dataframe "lion"
 lion<-read.csv("0702-lionfishdata.csv", header=TRUE)
+<<<<<<< HEAD
 #could you please go back to the original datasheet you just read in and remove any extra spaces inthe variable names. Then remove the extra periods thruout the sheet. Then read in the file again.
+=======
+#could you please go back to the original datasheet you just read in and remove any extra spaces inthe variable names. Then remove the extra periods thruout the sheet.
+>>>>>>> 356da277b9c35867a5d8c57ae9acd0abb520cd20
 #also please make sure the depth for each row is filled in or left blank if unknown.
 
 
