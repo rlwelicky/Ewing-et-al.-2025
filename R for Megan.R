@@ -70,25 +70,21 @@ descriptivestats<-liondata %>%
     sdscaleN = sd(scale_n, na.rm = TRUE),
     meanheartN = mean(heart_n,na.rm=TRUE),
     sdheartN = sd(heart_n, na.rm = TRUE))
-
+write.csv(descriptivestats, "descriptivestats.csv")
 
 #lets visualize our data by making a figure using the new dataframe we just created
 #Megan try followingmodifying the code below as well as taking direction from this website: https://gist.github.com/AndrewLJackson/b16fb216d8a9a96c20a4a979ec97e7b0
-m<-ggplot(data = descriptivestats, aes(x = meanmuscleC, y = meanmuscleN, color = depth_categorical)) +
-  geom_point(size=4, shape = 0)  +
-  geom_errorbar(aes(ymin = (meanmuscleN-sdmuscleN),ymax = (meanmuscleN + sdmuscleN))) + 
-  geom_errorbarh(aes(xmin = (meanmuscleC-sdmuscleC),xmax = (meanmuscleC +sdmuscleC)))  +theme_classic()
+figurevalues<-read.csv("figurevalues.csv", header=TRUE)
+#I transposed descriptive stats to make a more succinct plot code. You can transpose in R, but given how small this df was I just did it manually---this is not a good practice, but c'est le vie for now.
 
-s<- ggplot(data = descriptivestats, aes(x = meanscaleC, y = meanscaleN, color = depth_categorical)) +
-  geom_point(size=4, shape = 1)  +
-  geom_errorbar(aes(ymin = (meanscaleN-sdscaleN),ymax = (meanscaleN + sdscaleN))) + 
-  geom_errorbarh(aes(xmin = (meanscaleC-sdscaleC),xmax = (meanscaleC +sdscaleC)))  +theme_classic()
+m<-ggplot(data = figurevalues) +
+  aes(x = meanC, y = meanN, color = depth, shape = tissue) +
+  geom_point(size=4)  +
+  geom_errorbar(aes(ymin = (meanN-sdN),ymax = (meanN + sdN))) + 
+  geom_errorbarh(aes(xmin = (meanC-sdC),xmax = (meanC +sdC)))  +theme_classic()
+#need to fix axis labels, legend, and difure out why the vertical error bars don't have caps...
 
-h <-  
 
-plot_grid(m, s)
-print(msh)  
-  
   #you will copy and paste all the above code and do it with scale and heart, too, and change the color. you can choose colors by searching hex color pallete on google and entering the numeric hex code in "". 
 
 #The most critical thing to do before any modeling is to check if our data are normally distributed. We can visualiz the raw data, and for best practices, we then visualize the residuals of the data
