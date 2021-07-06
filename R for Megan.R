@@ -74,20 +74,19 @@ descriptivestats<-liondata %>%
 
 #lets visualize our data by making a figure using the new dataframe we just created
 #Megan try followingmodifying the code below as well as taking direction from this website: https://gist.github.com/AndrewLJackson/b16fb216d8a9a96c20a4a979ec97e7b0
-m<-ggplot(data = descriptivestats, aes(x = meanmuscleC,y = meanmuscleN), color = depth_categorical) + 
-  #note x is carbon and y = nitrogen, just like isoscapes, which we are in the process of making here
-  geom_point(color = "#00529c") + 
+m<-ggplot(data = descriptivestats, aes(x = meanmuscleC, y = meanmuscleN, color = depth_categorical)) +
+  geom_point(size=4, shape = 0)  +
   geom_errorbar(aes(ymin = (meanmuscleN-sdmuscleN),ymax = (meanmuscleN + sdmuscleN))) + 
-  geom_errorbarh(aes(xmin = (meanmuscleC-sdmuscleC),xmax = (meanmuscleC +sdmuscleC))) 
+  geom_errorbarh(aes(xmin = (meanmuscleC-sdmuscleC),xmax = (meanmuscleC +sdmuscleC)))  +theme_classic()
 
-ms<- m + geom_point(color = "#32a889") + 
+s<- ggplot(data = descriptivestats, aes(x = meanscaleC, y = meanscaleN, color = depth_categorical)) +
+  geom_point(size=4, shape = 1)  +
   geom_errorbar(aes(ymin = (meanscaleN-sdscaleN),ymax = (meanscaleN + sdscaleN))) + 
-  geom_errorbarh(aes(xmin = (meanscaleC-sdscaleC),xmax = (meanscaleC +sdscaleC))) 
-  
-msh<- ms +  geom_point(color = "#a8323c") + 
-  geom_errorbar(aes(ymin = (meanheartN-sdheartN),ymax = (meanheartN + sdheartN))) + 
-  geom_errorbarh(aes(xmin = (meanheartC-sdheartC),xmax = (meanheartC +sdheartC)))  
-  
+  geom_errorbarh(aes(xmin = (meanscaleC-sdscaleC),xmax = (meanscaleC +sdscaleC)))  +theme_classic()
+
+h <-  
+
+plot_grid(m, s)
 print(msh)  
   
   #you will copy and paste all the above code and do it with scale and heart, too, and change the color. you can choose colors by searching hex color pallete on google and entering the numeric hex code in "". 
