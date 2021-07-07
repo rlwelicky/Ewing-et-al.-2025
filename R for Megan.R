@@ -139,7 +139,11 @@ testUniformity(resheart_n)
 mcresults<-glm(muscle_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
 summary(mcresults)  #not sig
 mnresults<-glm(muscle_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
+<<<<<<< HEAD
 summary(mnresults) #not sig? biologically this doesn't make sense, and it doesn't make sense considering the other models---> when you remove the non-sig interaction effect, then depth is significant...Megan, discuss this Luke and see if he wants to account for this interaction in the models. Let him know the AICs of models with and without the interaction are nearly identical.
+=======
+summary(mnresults) #not sig? ---> when you remove the non-sig interaction effect, then depth is significant...Megan, discuss this Luke and see if he wants to account for this interaction in the models. Let him know the AICs of models with and without the interaction are nearly identical.
+>>>>>>> 5691aae999eecb3c1874e5a90734b5838c2e525f
 
 
 #scale
