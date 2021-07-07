@@ -1,12 +1,3 @@
-#Welcome to your R Script, Megan!
-
-#First we will make a project on Github and link it your Git
-
-#R is finicky and can be annoying, but gets easier with time, particulary easier when you know what terms to google... #Nevertheless, she persisted...
-#R is finicky and can be annoying, but gets easier with time, particulary easier when you know what terms too google... #Nevertheless, she persisted...
-
-#In R, you'll need to download packages to use certain functions. Once the packages are downloaded you call them in with the library function. Look below for the names of packages <library(package)> and search for them using the install button on the right corner packages tab.
-
 library(tidyverse)
 library(dplyr)
 library(broom)
@@ -80,9 +71,10 @@ figurevalues<-read.csv("figurevalues.csv", header=TRUE)
 m<-ggplot(data = figurevalues) +
   aes(x = meanC, y = meanN, color = depth, shape = tissue) +
   geom_point(size=4)  +
-  geom_errorbar(aes(ymin = (meanN-sdN),ymax = (meanN + sdN))) + 
-  geom_errorbarh(aes(xmin = (meanC-sdC),xmax = (meanC +sdC)))  +theme_classic()
-#need to fix axis labels, legend, and difure out why the vertical error bars don't have caps...
+  geom_errorbar(aes(ymin = (meanN-sdN),ymax = (meanN + sdN)), width = 1) + 
+  geom_errorbarh(aes(xmin = (meanC-sdC),xmax = (meanC +sdC)), width = 1)  +
+  ylab(expression(δ^{15}*"N"*" (in ‰)")) + xlab(expression(δ^{13}*"C"*" (in ‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank())
+
 
 
   #you will copy and paste all the above code and do it with scale and heart, too, and change the color. you can choose colors by searching hex color pallete on google and entering the numeric hex code in "". 
@@ -92,7 +84,6 @@ m<-ggplot(data = figurevalues) +
 #CARBON
 
 hist(liondata$muscle_c)
-plotResiduals(liondata$muscle_c)
 #lets check out the distribution of muscle carbon
 normalitymuscle_c<-glm(muscle_c~depth_categorical, data = liondata)
 resmuscle_c<-simulateResiduals(fittedModel = normalitymuscle_c, n = 250)
@@ -101,7 +92,6 @@ resmuscle_c$scaledResiduals
 testUniformity(resmuscle_c)
 
 hist(liondata$scale_c)
-plotResiduals(liondata$scale_c)
 #lets check out the distribution of scale carbon
 normalityscale_c<-glm(scale_c~depth_categorical, data = liondata)
 resscale_c<-simulateResiduals(fittedModel = normalityscale_c, n = 250)
@@ -110,7 +100,6 @@ resscale_c$scaledResiduals
 testUniformity(resscale_c)
 
 hist(liondata$heart_c)
-plotResiduals(liondata$heart_c)
 #lets check out the distribution of heart carbon
 normalityheart_c<-glm(heart_c~depth_categorical, data = liondata)
 resheart_c<-simulateResiduals(fittedModel = normalityheart_c, n = 250)
@@ -121,7 +110,6 @@ testUniformity(resheart_c)
 #NITROGEN
 
 hist(liondata$muscle_n)
-plotResiduals(liondata$muscle_n)
 #lets check out the distribution of muscle nitrogen
 normalitymuscle_n<-glm(muscle_n~depth_categorical, data = liondata)
 resmuscle_n<-simulateResiduals(fittedModel = normalitymuscle_n, n = 250)
@@ -130,7 +118,6 @@ resmuscle_n$scaledResiduals
 testUniformity(resmuscle_n)
 
 hist(liondata$scale_n)
-plotResiduals(liondata$scale_n)
 #lets check out the distribution of scale nitrogen
 normalityscale_n<-glm(scale_n~depth_categorical, data = liondata)
 resscale_n<-simulateResiduals(fittedModel = normalityscale_n, n = 250)
@@ -139,7 +126,6 @@ resscale_n$scaledResiduals
 testUniformity(resscale_n)
 
 hist(liondata$heart_n)
-plotResiduals(liondata$heart_n)
 #lets check out the distribution of heart nitrogen
 normalityheart_n<-glm(heart_n~depth_categorical, data = liondata)
 resheart_n<-simulateResiduals(fittedModel = normalityheart_n, n = 250)
@@ -149,17 +135,26 @@ testUniformity(resheart_n)
 
 #How does depth influence the diet of lionfish (using muscle tissue)? This format is response variable ~ indp factor + indp factor + indfactor interacts with other indp factor. We are using SL.mm*depth.categorical bc its likely at shallow depths there is more culling and so we might only find smaller/younger lionfish.  Repeat this formatting for scale and heart. 
 
-mcresults<-lm(muscle_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
-summary(mcresults)
-mnresults<-lm(muscle_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
-summary(mnresults)
+#muscle
+mcresults<-glm(muscle_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
+summary(mcresults)  #not sig
+mnresults<-glm(muscle_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
+summary(mnresults) #not sig? ---> when you remove the non-sig interaction effect, then depth is significant...Megan, discuss this Luke and see if he wants to account for this interaction in the models. Let him know the AICs of models with and without the interaction are nearly identical.
 
-scresults<-lm(scale_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
-summary(scresults)
-snresults<-lm(scale_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
-summary(snresults)
 
-hcresults<-lm(heart_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
-summary(hcresults)
-hnresults<-lm(heart_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
-summary(hnresults)
+#scale
+scresults<-glm(scale_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
+summary(scresults) #not sig
+#lets check normality of the model since raw data weren't  normal
+residuals<-simulateResiduals(fittedModel = scresults, n = 250)
+testUniformity(residuals) #residuals are normal...
+
+snresults<-glm(scale_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
+summary(snresults) #sig!
+
+
+hcresults<-glm(heart_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
+summary(hcresults) #not sig
+hnresults<-glm(heart_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
+summary(hnresults) #Asig
+
