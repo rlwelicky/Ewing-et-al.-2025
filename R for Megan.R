@@ -11,7 +11,6 @@ library(ggplot2)
 library(cowplot)
 library(lme4)
 
-
 #Okay, lets read in the files and packages we will use for data analysis. If the files is stored in your R project, all you need is a read.csv command! below you will see I am calling in the csv called lionfish data and from here out I'm calling this datasheet/dataframe "lion"
 lion<-read.csv("0705-lionfishdata.csv", header=TRUE)
 
@@ -75,7 +74,32 @@ m<-ggplot(data = figurevalues) +
   geom_errorbarh(aes(xmin = (meanC-sdC),xmax = (meanC +sdC)), width = 1)  +
   ylab(expression(δ^{15}*"N"*" (in ‰)")) + xlab(expression(δ^{13}*"C"*" (in ‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank())
 
+<<<<<<< HEAD
 ggsave("figure.jpg")
+=======
+m2<-ggplot(data = descriptivestats) +
+  aes(x = meanmuscleC, y = meanmuscleN, color = depth_categorical) +
+  geom_point(size=4)  +
+  geom_errorbar(aes(ymin = (meanmuscleN-sdmuscleN),ymax = (meanmuscleN + sdmuscleN)), width = 1) + 
+  geom_errorbarh(aes(xmin = (meanmuscleC-sdmuscleC),xmax = (meanmuscleC +sdmuscleC)), width = 1)  +
+  ylab(expression(δ^{15}*"N"*" (in ‰)")) + xlab(expression(δ^{13}*"C"*" (in ‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank())
+
+s<-ggplot(data = descriptivestats) +
+  aes(x = meanscaleC, y = meanscaleN, color = depth_categorical) +
+  geom_point(size=4)  +
+  geom_errorbar(aes(ymin = (meanscaleN-sdscaleN),ymax = (meanscaleN + sdscaleN)), width = 1) + 
+  geom_errorbarh(aes(xmin = (meanscaleC-sdscaleC),xmax = (meanscaleC +sdscaleC)), width = 1)  +
+  ylab(expression(δ^{15}*"N"*" (in ‰)")) + xlab(expression(δ^{13}*"C"*" (in ‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank())
+
+h<-ggplot(data = descriptivestats) +
+  aes(x = meanheartC, y = meanheartN, color = depth_categorical) +
+  geom_point(size=4)  +
+  geom_errorbar(aes(ymin = (meanheartN-sdheartN),ymax = (meanheartN + sdheartN)), width = 1) + 
+  geom_errorbarh(aes(xmin = (meanheartC-sdheartC),xmax = (meanheartC +sdheartC)), width = 1)  +
+  ylab(expression(δ^{15}*"N"*" (in ‰)")) + xlab(expression(δ^{13}*"C"*" (in ‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank())
+
+
+
 
   #you will copy and paste all the above code and do it with scale and heart, too, and change the color. you can choose colors by searching hex color pallete on google and entering the numeric hex code in "". 
 
@@ -137,7 +161,16 @@ testUniformity(resheart_n)
 
 #muscle
 mcresults<-glm(muscle_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
+
 summary(mcresults) #not sig? biologically this doesn't make sense, and it doesn't make sense considering the other models---> when you remove the non-sig interaction effect, then depth is significant...Megan, discuss this Luke and see if he wants to account for this interaction in the models. Let him know the AICs of models with and without the interaction are nearly identical.
+
+summary(mcresults)  #not sig
+mnresults<-glm(muscle_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
+
+summary(mnresults) #not sig? biologically this doesn't make sense, and it doesn't make sense considering the other models---> when you remove the non-sig interaction effect, then depth is significant...Megan, discuss this Luke and see if he wants to account for this interaction in the models. Let him know the AICs of models with and without the interaction are nearly identical.
+
+summary(mnresults) #not sig? ---> when you remove the non-sig interaction effect, then depth is significant...Megan, discuss this Luke and see if he wants to account for this interaction in the models. Let him know the AICs of models with and without the interaction are nearly identical.
+
 
 mnresults<-glm(muscle_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
 summary(mnresults)
