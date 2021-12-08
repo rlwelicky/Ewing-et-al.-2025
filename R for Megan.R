@@ -75,7 +75,7 @@ m<-ggplot(data = figurevalues) +
   geom_errorbarh(aes(xmin = (meanC-sdC),xmax = (meanC +sdC)), width = 1)  +
   ylab(expression(δ^{15}*"N"*" (in ‰)")) + xlab(expression(δ^{13}*"C"*" (in ‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank())
 
-
+ggsave("figure.jpg")
 
   #you will copy and paste all the above code and do it with scale and heart, too, and change the color. you can choose colors by searching hex color pallete on google and entering the numeric hex code in "". 
 
@@ -97,7 +97,7 @@ normalityscale_c<-glm(scale_c~depth_categorical, data = liondata)
 resscale_c<-simulateResiduals(fittedModel = normalityscale_c, n = 250)
 plot(resscale_c)
 resscale_c$scaledResiduals
-testUniformity(resscale_c)
+testUniformity(resscale_c) #not normal
 
 hist(liondata$heart_c)
 #lets check out the distribution of heart carbon
@@ -137,14 +137,10 @@ testUniformity(resheart_n)
 
 #muscle
 mcresults<-glm(muscle_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
-summary(mcresults)  #not sig
-mnresults<-glm(muscle_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
-<<<<<<< HEAD
-summary(mnresults) #not sig? biologically this doesn't make sense, and it doesn't make sense considering the other models---> when you remove the non-sig interaction effect, then depth is significant...Megan, discuss this Luke and see if he wants to account for this interaction in the models. Let him know the AICs of models with and without the interaction are nearly identical.
-=======
-summary(mnresults) #not sig? ---> when you remove the non-sig interaction effect, then depth is significant...Megan, discuss this Luke and see if he wants to account for this interaction in the models. Let him know the AICs of models with and without the interaction are nearly identical.
->>>>>>> 5691aae999eecb3c1874e5a90734b5838c2e525f
+summary(mcresults) #not sig? biologically this doesn't make sense, and it doesn't make sense considering the other models---> when you remove the non-sig interaction effect, then depth is significant...Megan, discuss this Luke and see if he wants to account for this interaction in the models. Let him know the AICs of models with and without the interaction are nearly identical.
 
+mnresults<-glm(muscle_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
+summary(mnresults)
 
 #scale
 scresults<-glm(scale_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
@@ -160,5 +156,5 @@ summary(snresults) #sig!
 hcresults<-glm(heart_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
 summary(hcresults) #not sig
 hnresults<-glm(heart_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
-summary(hnresults) #Asig
+summary(hnresults) #sig
 
