@@ -223,11 +223,12 @@ scattercarbon_muscle<-ggplot(data = liondata) +
   geom_point(size = 2)  +
   ylab(expression(δ^{13}*"C"*" of muscle tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
 
+ggsave("muscle.depth.carbon.jpg")
 scatternitrogen_muscle<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y = muscle_n, color=SL_mm) +
   geom_point(size = 2)  +
   ylab(expression(δ^{15}*"N"*" of muscle tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
-
+ggsave("muscle.depth.nitrogen.jpg")
 
 #figures for supp
 
@@ -236,17 +237,25 @@ scattercarbon_heart<-ggplot(data = liondata) +
   geom_point(size = 2)  +
   ylab(expression(δ^{13}*"C"*" of heart tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
 
+
+ggsave("heart.depth.carbon.jpg")
+
 scatternitrogen_heart<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y = heart_n, color=SL_mm) +
   geom_point(size = 2)  +
   ylab(expression(δ^{15}*"N"*" of heart tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+ggsave("heart.depth.nitrogen.jpg")
+
 
 scattercarbon_scale<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y =scale_c, color=SL_mm) +
   geom_point(size = 2)  +
   ylab(expression(δ^{13}*"C"*" of scale tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+ggsave("scale.depth.carbon.jpg")
+
 
 scatternitrogen_scale<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y = scale_n, color=SL_mm) +
   geom_point(size = 2)  +
   ylab(expression(δ^{15}*"N"*" of scale tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+ggsave("scale.depth.nitrogen.jpg")
