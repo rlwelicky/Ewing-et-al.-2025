@@ -259,3 +259,10 @@ scatternitrogen_scale<-ggplot(data = liondata) +
   geom_point(size = 2)  +
   ylab(expression(δ^{15}*"N"*" of scale tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
 ggsave("scale.depth.nitrogen.jpg")
+
+cor.test(liondata$SL_mm, liondata$depth_capture_avg_m)
+
+sl.depth<-ggplot(data = liondata) +
+  aes(x = depth_capture_avg_m, y = SL_mm) +
+  geom_point(size = 2, color = "#6C0BA9")  +
+  ylab("Standard length (in mm)") + xlab("Average capture depth (in m)") + theme_classic() 
