@@ -286,12 +286,12 @@ slope<- coeff[2]
 sl.depth<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y = SL_mm) +
   geom_point(size = 2, color = "#6C0BA9")  +
-  ylab("Standard length (in mm)") + xlab("Average capture depth (in m)") + theme_classic() + geom_smooth(data = reg.sl.depth, method = lm, color = "#6C0BA9")
+  ylab("Standard length (in mm)") + xlab("Average capture depth (in m)") + theme_classic() + geom_smooth(data = reg.sl.depth, method = lm, color = "#6C0BA9", fullrange = TRUE) #t = 5.3225, df = 74, p-value = 1.053e-06, r2 = 0.526
 
 # add the regression line
-sl.depth.fig<-sl.depth+geom_abline(intercept = intercept, slope = slope, color="#6C0BA9", size=1)
+#sl.depth.fig<-sl.depth+geom_abline(intercept = intercept, slope = slope, color="#6C0BA9", size=1)
 
-
+ggsave("sl.depth.jpg")
 
 sl.depth<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y = SL_mm) +
