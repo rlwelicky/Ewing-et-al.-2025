@@ -14,6 +14,21 @@ library(lme4)
 #Okay, lets read in the files and packages we will use for data analysis. If the files is stored in your R project, all you need is a read.csv command! below you will see I am calling in the csv called lionfish data and from here out I'm calling this datasheet/dataframe "lion"
 lion<-read.csv("0705-lionfishdata.csv", header=TRUE)
 
+
+
+library(plotly)
+scatter<-ggplot(data = lion) +
+  aes(x = depth_capture_avg_m, y = muscle_c, color=SL_mm) +
+  geom_point(size = 2)  +
+  ylab(expression(δ^{13}*"C"*" (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + theme(legend.position = "right", legend.title="element_blank()) + legen")
+
+library(scatterplot3d)
+
+scatterplot3d(x = lion$depth_capture_avg_m, y = lion$muscle_n, z =lion$SL_mm, highlight.3d = FALSE)
+
+
+p <- plot_ly(lion, x=~SL_mm, y=~muscle_n, 
+             z=~depth_capture_avg_m)
 #could you please go back to the original datasheet you just read in and remove any extra spaces inthe variable names. Then remove the extra periods thruout the sheet. Then read in the file again.
 
 #could you please go back to the original datasheet you just read in and remove any extra spaces inthe variable names. Then remove the extra periods thruout the sheet.
@@ -74,9 +89,13 @@ m<-ggplot(data = figurevalues) +
   geom_errorbarh(aes(xmin = (meanC-sdC),xmax = (meanC +sdC)), width = 1)  +
   ylab(expression(δ^{15}*"N"*" (in ‰)")) + xlab(expression(δ^{13}*"C"*" (in ‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank())
 
-<<<<<<< HEAD
+
+
+
+
+
 ggsave("figure.jpg")
-=======
+
 m2<-ggplot(data = descriptivestats) +
   aes(x = meanmuscleC, y = meanmuscleN, color = depth_categorical) +
   geom_point(size=4)  +
@@ -191,3 +210,90 @@ summary(hcresults) #not sig
 hnresults<-glm(heart_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
 summary(hnresults) #sig
 
+plot<-ggplot(data = descriptivestats) +
+  aes(x = meanscaleC, y = meanscaleN, color = depth_categorical) +
+  geom_point(size=4)  +
+  geom_errorbar(aes(ymin = (meanscaleN-sdscaleN),ymax = (meanscaleN + sdscaleN)), width = 1) + 
+  geom_errorbarh(aes(xmin = (meanscaleC-sdscaleC),xmax = (meanscaleC +sdscaleC)), width = 1)  +
+  ylab(expression(δ^{15}*"N"*" (in ‰)")) + xlab(expression(δ^{13}*"C"*" (in ‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank())
+
+
+
+#figures for paper
+
+scattercarbon_muscle<-ggplot(data = liondata) +
+  aes(x = depth_capture_avg_m, y = muscle_c, color=SL_mm) +
+  geom_point(size = 2)  +
+  ylab(expression(δ^{13}*"C"*" of muscle tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+
+ggsave("muscle.depth.carbon.jpg")
+scatternitrogen_muscle<-ggplot(data = liondata) +
+  aes(x = depth_capture_avg_m, y = muscle_n, color=SL_mm) +
+  geom_point(size = 2)  +
+  ylab(expression(δ^{15}*"N"*" of muscle tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+ggsave("muscle.depth.nitrogen.jpg")
+
+#figures for supp
+
+scattercarbon_heart<-ggplot(data = liondata) +
+  aes(x = depth_capture_avg_m, y = heart_c, color=SL_mm) +
+  geom_point(size = 2)  +
+  ylab(expression(δ^{13}*"C"*" of heart tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+
+
+ggsave("heart.depth.carbon.jpg")
+
+scatternitrogen_heart<-ggplot(data = liondata) +
+  aes(x = depth_capture_avg_m, y = heart_n, color=SL_mm) +
+  geom_point(size = 2)  +
+  ylab(expression(δ^{15}*"N"*" of heart tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+ggsave("heart.depth.nitrogen.jpg")
+
+
+scattercarbon_scale<-ggplot(data = liondata) +
+  aes(x = depth_capture_avg_m, y =scale_c, color=SL_mm) +
+  geom_point(size = 2)  +
+  ylab(expression(δ^{13}*"C"*" of scale tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+ggsave("scale.depth.carbon.jpg")
+
+
+scatternitrogen_scale<-ggplot(data = liondata) +
+  aes(x = depth_capture_avg_m, y = scale_n, color=SL_mm) +
+  geom_point(size = 2)  +
+  ylab(expression(δ^-{15}*"N"*" of scale tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+ggsave("scale.depth.nitrogen.jpg")
+
+cor.test(liondata$SL_mm, liondata$depth_capture_avg_m)
+
+corr<-glm(SL_mm ~ depth_capture_avg_m, data = liondata)
+
+
+reg.sl.depth<-lm(formula = SL_mm ~ depth_capture_avg_m, data=liondata)
+summary(reg.sl.depth)
+new.dat<-data.frame(depth_capture_avg_m = 100)
+predict(reg.sl.depth, newdata = new.dat, interval = "confidence")
+predict(reg.sl.depth, newdata = new.dat, interval = "prediction")
+confint(reg.sl.depth)
+
+
+#get intercept and slope value
+coeff<-coefficients(reg.sl.depth)          
+intercept<-coeff[1]
+slope<- coeff[2]
+
+
+
+sl.depth<-ggplot(data = liondata) +
+  aes(x = depth_capture_avg_m, y = SL_mm) +
+  geom_point(size = 2, color = "#6C0BA9")  +
+  ylab("Standard length (in mm)") + xlab("Average capture depth (in m)") + theme_classic() + geom_smooth(data = reg.sl.depth, method = lm, color = "#6C0BA9")
+
+# add the regression line
+sl.depth.fig<-sl.depth+geom_abline(intercept = intercept, slope = slope, color="#6C0BA9", size=1)
+
+
+
+sl.depth<-ggplot(data = liondata) +
+  aes(x = depth_capture_avg_m, y = SL_mm) +
+  geom_point(size = 2, color = "#6C0BA9")  +
+  ylab("Standard length (in mm)") + xlab("Average capture depth (in m)") + theme_classic() 
