@@ -224,13 +224,14 @@ plot<-ggplot(data = descriptivestats) +
 scattercarbon_muscle<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y = muscle_c, color=SL_mm) +
   geom_point(size = 2)  +
-  ylab(expression(δ^{13}*"C"*" of muscle tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+  ylab(expression(δ^{13}*"C"*" of tissue (‰)")) + xlab("Depth (m)") + theme_classic() + labs(color = "Standard length (mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")  +  theme(text = element_text(size = )) + ylab("") + theme(legend.position="none") + ggtitle("Muscle")+ theme(axis.text = element_text(size = 36)) + theme(title  = element_text(size = 36))
 
 ggsave("muscle.depth.carbon.jpg")
+
 scatternitrogen_muscle<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y = muscle_n, color=SL_mm) +
   geom_point(size = 2)  +
-  ylab(expression(δ^{15}*"N"*" of muscle tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+  ylab(expression(δ^{15}*"N"*" of tissue (‰)")) + xlab("Depth (m)") + theme_classic() + labs(color = "Standard length (mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")  +  theme(text = element_text(size = )) + ylab("") + theme(legend.position="none") + ggtitle("Muscle")+ theme(axis.text = element_text(size = 36)) + theme(title  = element_text(size = 36))
 ggsave("muscle.depth.nitrogen.jpg")
 
 #figures for supp
@@ -238,7 +239,7 @@ ggsave("muscle.depth.nitrogen.jpg")
 scattercarbon_heart<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y = heart_c, color=SL_mm) +
   geom_point(size = 2)  +
-  ylab(expression(δ^{13}*"C"*" of heart tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+  ylab(expression(δ^{13}*"C"*" of tissue (‰)"))  + xlab("")+ theme_classic()  + scale_colour_gradient(low="#FFC20A", high="#994F00") +  theme(text = element_text(size = 36)) + theme(legend.position="none") + ggtitle("Heart")+ theme(axis.text = element_text(size = 36))
 
 
 ggsave("heart.depth.carbon.jpg")
@@ -246,24 +247,52 @@ ggsave("heart.depth.carbon.jpg")
 scatternitrogen_heart<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y = heart_n, color=SL_mm) +
   geom_point(size = 2)  +
-  ylab(expression(δ^{15}*"N"*" of heart tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+  ylab(expression(δ^{15}*"N"*" oftissue (‰)"))  + xlab("")+ theme_classic()  + scale_colour_gradient(low="#FFC20A", high="#994F00") +  theme(text = element_text(size = 36)) + theme(legend.position="none") + ggtitle("Heart")+ theme(axis.text = element_text(size = 36))
 ggsave("heart.depth.nitrogen.jpg")
 
 
 scattercarbon_scale<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y =scale_c, color=SL_mm) +
   geom_point(size = 2)  +
-  ylab(expression(δ^{13}*"C"*" of scale tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+  ylab(expression(δ^{13}*"C"*" of scale tissue (in ‰)"))  + xlab("") + theme_classic() + labs(color = "Standard length (mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")  + ggtitle("Scale") +theme(text = element_text(size = 36)) + theme(axis.text = element_text(size = 36)) + ylab("") + theme(legend.key.size = unit(2, 'cm'))
+
 ggsave("scale.depth.carbon.jpg")
 
 
 scatternitrogen_scale<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y = scale_n, color=SL_mm) +
   geom_point(size = 2)  +
-  ylab(expression(δ^-{15}*"N"*" of scale tissue (in ‰)")) + xlab("Average capture depth (in m)") + theme_classic() + labs(color = "Standard length (in mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")
+  ylab(expression(δ^{15}*"N"*" of scale tissue (in ‰)"))  + xlab("") + theme_classic() + labs(color = "Standard length (mm)") + scale_colour_gradient(low="#FFC20A", high="#994F00")  + ggtitle("Scale") +theme(text = element_text(size = 36)) + theme(axis.text = element_text(size = 36)) + ylab("") + theme(legend.key.size = unit(2, 'cm'))
+
+
+
+#+ theme(legend.text=element_text(size=rel(0.55)))
 ggsave("scale.depth.nitrogen.jpg")
 
 cor.test(liondata$SL_mm, liondata$depth_capture_avg_m)
+
+
+
+#nitrogen versus depth panel figure
+library(patchwork)
+library(ggpubr)
+library(gridExtra)
+library(plotly)
+
+scatternitogenpanel<-(scatternitrogen_heart | scatternitrogen_muscle) | scatternitrogen_scale
+ggsave(scatternitogenpanel, file = "scatternitogenpanel.jpg", width=24, height =8)
+cor.test(liondata$scale_n, liondata$depth_capture_avg_m)           
+cor.test(liondata$muscle_n, liondata$depth_capture_avg_m)     
+cor.test(liondata$heart_n, liondata$depth_capture_avg_m)  
+
+
+scattercarbonpanel<-(scattercarbon_heart | scattercarbon_muscle) | scattercarbon_scale
+ggsave(scattercarbonpanel, file = "scattercarbonpanel.jpg", width=24, height =8)
+cor.test(liondata$scale_c, liondata$depth_capture_avg_m)           
+cor.test(liondata$muscle_c, liondata$depth_capture_avg_m)     
+cor.test(liondata$heart_c, liondata$depth_capture_avg_m)  
+
+
 
 corr<-glm(SL_mm ~ depth_capture_avg_m, data = liondata)
 
@@ -286,14 +315,15 @@ slope<- coeff[2]
 sl.depth<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y = SL_mm) +
   geom_point(size = 2, color = "#6C0BA9")  +
-  ylab("Standard length (in mm)") + xlab("Average capture depth (in m)") + theme_classic() + geom_smooth(data = reg.sl.depth, method = lm, color = "#6C0BA9", fullrange = TRUE) #t = 5.3225, df = 74, p-value = 1.053e-06, r2 = 0.526
+  ylab("Standard length (in mm)") + xlab("Depth (m)") + theme_classic() + geom_smooth(data = reg.sl.depth, method = lm, color = "black", fullrange = TRUE) #t = 5.3225, df = 74, p-value = 1.053e-06, r2 = 0.526
 
 # add the regression line
-#sl.depth.fig<-sl.depth+geom_abline(intercept = intercept, slope = slope, color="#6C0BA9", size=1)
+sl.depth.fig<-sl.depth+geom_abline(intercept = intercept, slope = slope, color="#6C0BA9", size=1) +  theme(text = element_text(size = 18)) 
 
 ggsave("sl.depth.jpg")
 
 sl.depth<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y = SL_mm) +
   geom_point(size = 2, color = "#6C0BA9")  +
-  ylab("Standard length (in mm)") + xlab("Average capture depth (in m)") + theme_classic() 
+  ylab("Standard length (in mm)") + xlab("Depth (m)") + theme_classic() 
+
