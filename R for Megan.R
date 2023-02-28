@@ -60,6 +60,10 @@ standards<-lion%>%
 liondata<-lion %>% 
   filter(calibration == "single" |calibration == "average")
 
+#Feb282023, I am making a variable called TP for trophic position. I will ammend the descriptive states below. We are using a value of 4 for the producer/prey from Zhu et al. We will stick with the common 3.4 for the Trophic discrimination factor (TDF), which is the stepwise change in per mil for one trophic level to the next. we'll use muscle tissue for calaculating TP because this physiologically makes the most sense, and is what tissue is most common in lit for deriving tp
+
+liondata$tp<-((liondata$muscle_n - 4)/3.4) + 1
+
 descriptivestats<-liondata %>% 
   group_by(depth_categorical)%>% 
   summarize(
@@ -74,7 +78,9 @@ descriptivestats<-liondata %>%
     meanscaleN = mean(scale_n,na.rm=TRUE),
     sdscaleN = sd(scale_n, na.rm = TRUE),
     meanheartN = mean(heart_n,na.rm=TRUE),
-    sdheartN = sd(heart_n, na.rm = TRUE))
+    sdheartN = sd(heart_n, na.rm = TRUE),
+    meantp =mean(tp,na.rm = TRUE),
+    sdtp = sd(tp, na.rm = TRUE))
 write.csv(descriptivestats, "descriptivestats.csv")
 
 #lets visualize our data by making a figure using the new dataframe we just created
@@ -178,25 +184,21 @@ testUniformity(resheart_n)
 
 #How does depth influence the diet of lionfish (using muscle tissue)? This format is response variable ~ indp factor + indp factor + indfactor interacts with other indp factor. We are using SL.mm*depth.categorical bc its likely at shallow depths there is more culling and so we might only find smaller/younger lionfish.  Repeat this formatting for scale and heart. 
 
-#muscle
+#muscle #analyses for paper as of 2.28.2023
 mcresults<-glm(muscle_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
 
-summary(mcresults) #not sig? biologically this doesn't make sense, and it doesn't make sense considering the other models---> when you remove the non-sig interaction effect, then depth is significant...Megan, discuss this Luke and see if he wants to account for this interaction in the models. Let him know the AICs of models with and without the interaction are nearly identical.
+summary(mcresults) #not sig
 
-summary(mcresults)  #not sig
+summary(mcresults) 
 mnresults<-glm(muscle_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
 
-summary(mnresults) #not sig? biologically this doesn't make sense, and it doesn't make sense considering the other models---> when you remove the non-sig interaction effect, then depth is significant...Megan, discuss this Luke and see if he wants to account for this interaction in the models. Let him know the AICs of models with and without the interaction are nearly identical.
-
-summary(mnresults) #not sig? ---> when you remove the non-sig interaction effect, then depth is significant...Megan, discuss this Luke and see if he wants to account for this interaction in the models. Let him know the AICs of models with and without the interaction are nearly identical.
+summary(mnresults) #not sig
 
 
-mnresults<-glm(muscle_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
-summary(mnresults)
-
-#scale
+#scale #analyses for paper as of 2.28.2023
 scresults<-glm(scale_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
 summary(scresults) #not sig
+
 #lets check normality of the model since raw data weren't  normal
 residuals<-simulateResiduals(fittedModel = scresults, n = 250)
 testUniformity(residuals) #residuals are normal...
@@ -205,10 +207,25 @@ snresults<-glm(scale_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, da
 summary(snresults) #sig!
 
 
+#heart #analyses for paper as of 2.28.2023
 hcresults<-glm(heart_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
 summary(hcresults) #not sig
 hnresults<-glm(heart_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
-summary(hnresults) #sig
+summary(hnresults) #sig!
+
+#new analysis with trophic position  Does depth, size, etc influence TP?
+
+#first check distribution
+#lets check out the distribution of scale nitrogen
+normalitytp<-glm(tp~depth_categorical, data = liondata)
+resscale_tp<-simulateResiduals(fittedModel = normalitytp, n = 250)
+plot(resscale_tp)
+resscale_tp$scaledResiduals
+testUniformity(resscale_tp) #data are normally dist
+
+tpresults<-glm(tp ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
+summary(tpresults)
+#TP results not sig
 
 plot<-ggplot(data = descriptivestats) +
   aes(x = meanscaleC, y = meanscaleN, color = depth_categorical) +
