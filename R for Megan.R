@@ -227,6 +227,17 @@ tpresults<-glm(tp ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = 
 summary(tpresults)
 #TP results not sig
 
+#One reviewer asked if maybe we don't see differences because the 13C values are the same in our deep and shallow environments. Lets ask this exact question...However, I don't think we can use this because SIA values will be influenced by size. Our best bet is to just look at the range in our carbon values and compare this qualitatively to ranges in carbon values in the lit.
+
+sitediffmuscle_c<-glm(muscle_c~depth_categorical, data = liondata)
+summary(sitediffmuscle_c)
+
+sitediffheart_c<-glm(heart_c~depth_categorical, data = liondata)
+summary(sitediffheart_c)
+
+sitediffscale_c<-glm(scale_c~depth_categorical, data = liondata)
+summary(sitediffscale_c)
+
 plot<-ggplot(data = descriptivestats) +
   aes(x = meanscaleC, y = meanscaleN, color = depth_categorical) +
   geom_point(size=4)  +
