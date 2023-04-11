@@ -82,12 +82,13 @@ write.csv(descriptivestats, "descriptivestats.csv")
 figurevalues<-read.csv("figurevalues.csv", header=TRUE)
 #I transposed descriptive stats to make a more succinct plot code. You can transpose in R, but given how small this df was I just did it manually---this is not a good practice, but c'est le vie for now.
 
+#on 4/23/23, editted this figure to meet reviewer requests
 m<-ggplot(data = figurevalues) +
   aes(x = meanC, y = meanN, color = depth, shape = tissue) +
   geom_point(size=4)  +
-  geom_errorbar(aes(ymin = (meanN-sdN),ymax = (meanN + sdN)), width = 1) + 
-  geom_errorbarh(aes(xmin = (meanC-sdC),xmax = (meanC +sdC)), width = 1)  +
-  ylab(expression(δ^{15}*"N"*" (in ‰)")) + xlab(expression(δ^{13}*"C"*" (in ‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank())
+  geom_errorbar(aes(ymin = (meanN-sdN),ymax = (meanN + sdN)), width = 0.1) + 
+  geom_errorbarh(aes(xmin = (meanC-sdC),xmax = (meanC +sdC)))  +
+  ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4"))
 
 
 

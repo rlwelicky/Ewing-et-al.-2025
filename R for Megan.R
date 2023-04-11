@@ -64,6 +64,9 @@ liondata<-lion %>%
 
 liondata$tp<-((liondata$muscle_n - 4)/3.4) + 1
 
+
+
+
 descriptivestats<-liondata %>% 
   group_by(depth_categorical)%>% 
   summarize(
@@ -81,7 +84,7 @@ descriptivestats<-liondata %>%
     sdheartN = sd(heart_n, na.rm = TRUE),
     meantp =mean(tp,na.rm = TRUE),
     sdtp = sd(tp, na.rm = TRUE))
-write.csv(descriptivestats, "descriptivestats.csv")
+write.csv(descriptivestats, "descriptivestats_lion.csv")
 
 #lets visualize our data by making a figure using the new dataframe we just created
 #Megan try followingmodifying the code below as well as taking direction from this website: https://gist.github.com/AndrewLJackson/b16fb216d8a9a96c20a4a979ec97e7b0
@@ -354,4 +357,19 @@ sl.depth<-ggplot(data = liondata) +
   aes(x = depth_capture_avg_m, y = SL_mm) +
   geom_point(size = 2, color = "#6C0BA9")  +
   ylab("Standard length (in mm)") + xlab("Depth (m)") + theme_classic() 
+
+
+#if I make a scatter plot with the ellipses
+
+lionlong1<-liondata%>%
+  pivot_longer((cols = c("muscle_c", "muscle_n", "heart_c", "heart_n", "scale_c", "scale_n")) , names_to = c("tissue", "isotope"),
+               names_sep = "_")
+lionlong2<-lionlong1%>%
+  pivot_wider(names_from = isotope, values_from = value)
+
+  ellipsefig<-ggplot(data = lionlong2) +
+  aes(x = c, y = n, color = depth_categorical, shape = tissue) +
+  geom_point(size=2)  +
+    stat_ellipse((aes( x = c, y = n, group = depth_categorical)),position = "identity", level = 0.4, size = 1) +
+    ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4"))
 
