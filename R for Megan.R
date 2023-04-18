@@ -367,9 +367,44 @@ lionlong1<-liondata%>%
 lionlong2<-lionlong1%>%
   pivot_wider(names_from = isotope, values_from = value)
 
-  ellipsefig<-ggplot(data = lionlong2) +
+  ellipsefig.depthcat<-ggplot(data = lionlong2) +
   aes(x = c, y = n, color = depth_categorical, shape = tissue) +
-  geom_point(size=2)  +
-    stat_ellipse((aes( x = c, y = n, group = depth_categorical)),position = "identity", level = 0.4, size = 1) +
+  #geom_point(size=2)  +
+    stat_ellipse((aes( x = c, y = n, group =  depth_categorical)),position = "identity", level = 0.95, size = 1) +
     ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4"))
 
+  ellipsefig.tissuecat<-ggplot(data = lionlong2) +
+    aes(x = c, y = n, color = depth_categorical, shape = tissue) +
+    geom_point(size=2)  +
+    stat_ellipse((aes( x = c, y = n, group =  tissue)),position = "identity", level = 0.95, size = 1) +
+    ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4"))
+
+  
+  
+  #on 4/23/23, editted this figure to meet reviewer requests
+  m<-ggplot(data = figurevalues) +
+    aes(x = meanC, y = meanN, color = depth, shape = tissue) +
+    geom_point(size=4)  +
+    geom_errorbar(aes(ymin = (meanN-sdN),ymax = (meanN + sdN)), width = 0.1) + 
+    geom_errorbarh(aes(xmin = (meanC-sdC),xmax = (meanC +sdC)))  +
+    ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4")) 
+  
+#combine isoplot and ellipse figure  
+  combinedfig<- m + ellipsefig.depthcat
+    
+try2<- ggplot() +
+   
+  stat_ellipse((aes( x = lionlong2$c, y = lionlong2$n, group =  lionlong2$depth_categorical, color =lionlong2$depth_categorical)),position = "identity", level = 0.95, size = 1, linetype = 2) +  
+
+    scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4")) +
+  
+   
+    geom_point(aes(x = figurevalues$meanC, y = figurevalues$meanN, shape = figurevalues$tissue, color = figurevalues$depth), size = 4) +
+   
+   geom_errorbar(aes(x=figurevalues$meanC,  ymin = (figurevalues$meanN-figurevalues$sdN),ymax = (figurevalues$meanN + figurevalues$sdN), color = figurevalues$depth), width = 0.1) + 
+   
+   geom_errorbarh(aes(y =figurevalues$meanN, xmin = (figurevalues$meanC-figurevalues$sdC),xmax = (figurevalues$meanC +figurevalues$sdC), color=figurevalues$depth))  +
+   
+   ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4")) 
+
+ggsave("isoplot_ellipse.jpg")
