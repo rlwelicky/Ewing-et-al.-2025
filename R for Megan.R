@@ -190,7 +190,11 @@ testUniformity(resheart_n)
 #muscle #analyses for paper as of 2.28.2023
 mcresults<-glm(muscle_c ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
 
+
+mcresults2<-glm(muscle_c ~ SL_mm + depth_capture_avg_m + SL_mm*depth_capture_avg_m, data = liondata)
+
 summary(mcresults) #not sig
+summary(mcresults2)
 
 summary(mcresults) 
 mnresults<-glm(muscle_n ~ SL_mm + depth_categorical + SL_mm*depth_categorical, data = liondata)
@@ -379,6 +383,17 @@ lionlong2<-lionlong1%>%
     stat_ellipse((aes( x = c, y = n, group =  tissue)),position = "identity", level = 0.95, size = 1) +
     ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4"))
 
+  scatter<-ggplot(data = lionlong2) +
+    aes(x = c, y = n, color = depth_categorical, shape = tissue) +
+    geom_point(size=2)  +
+    ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4"))
+
+ggsave("scatter.jpg")
+
+scatter2<-ggplot(data = lionlong2) +
+  aes(x = c, y = n, color = depth_categorical, shape = tissue) +
+  geom_point(size=2)  +
+  ylab("") + xlab("") + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4"))
   
   
   #on 4/23/23, editted this figure to meet reviewer requests
@@ -389,6 +404,15 @@ lionlong2<-lionlong1%>%
     geom_errorbarh(aes(xmin = (meanC-sdC),xmax = (meanC +sdC)))  +
     ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4")) 
   
+  ggsave("isoplot_alone.jpg")
+  
+  m2<-ggplot(data = figurevalues) +
+    aes(x = meanC, y = meanN, color = depth, shape = tissue) +
+    geom_point(size=4)  +
+    geom_errorbar(aes(ymin = (meanN-sdN),ymax = (meanN + sdN)), width = 0.1) + 
+    geom_errorbarh(aes(xmin = (meanC-sdC),xmax = (meanC +sdC)))  +
+    ylab(expression(δ^{15}*"N"*" (‰)")) + xlab("") + theme_classic() + theme(legend.position = "none", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4")) 
+    
 #combine isoplot and ellipse figure  
   combinedfig<- m + ellipsefig.depthcat
     
@@ -408,3 +432,50 @@ try2<- ggplot() +
    ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4")) 
 
 ggsave("isoplot_ellipse.jpg")
+
+
+
+try3<- ggplot() +
+  
+  stat_ellipse((aes( x = lionlong2$c, y = lionlong2$n, group =  lionlong2$depth_categorical, color =lionlong2$depth_categorical)),position = "identity", level = 0.95, size = 1, linetype = 2) +  
+  
+  scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4")) +
+  
+  
+  geom_point(aes(x = figurevalues$meanC, y = figurevalues$meanN, shape = figurevalues$tissue, color = figurevalues$depth), size = 4) +
+  
+  geom_errorbar(aes(x=figurevalues$meanC,  ymin = (figurevalues$meanN-figurevalues$sdN),ymax = (figurevalues$meanN + figurevalues$sdN), color = figurevalues$depth), width = 0.1) + 
+  
+  geom_errorbarh(aes(y =figurevalues$meanN, xmin = (figurevalues$meanC-figurevalues$sdC),xmax = (figurevalues$meanC +figurevalues$sdC), color=figurevalues$depth))  +
+  
+  ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4")) 
+
+ggsave("isoplot_ellipse.jpg")
+
+
+library("gridExtra")
+combinedfig<-ggarrange(m2, scatter2, nrow = 1, common.legend = TRUE, legend = "right")
+combinedfig2<-annotate_figure(combinedfig,
+                              bottom = text_grob((expression(δ^{13}*"C"*" (‰)"))))
+ggsave("iso_scatter.jpg")
+
+
+
+
+
+
+try9<- ggplot() +
+  
+  stat_ellipse((aes( x = lionlong2$c, y = lionlong2$n, group =  lionlong2$tissuedepth)),position = "identity", level = 0.95, size = 1, linetype = 2) +  
+  
+  scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4")) +
+  
+  
+  geom_point(aes(x = figurevalues$meanC, y = figurevalues$meanN, shape = figurevalues$tissue, color = figurevalues$depth), size = 4) +
+  
+  geom_errorbar(aes(x=figurevalues$meanC,  ymin = (figurevalues$meanN-figurevalues$sdN),ymax = (figurevalues$meanN + figurevalues$sdN), color = figurevalues$depth), width = 0.1) + 
+  
+  geom_errorbarh(aes(y =figurevalues$meanN, xmin = (figurevalues$meanC-figurevalues$sdC),xmax = (figurevalues$meanC +figurevalues$sdC), color=figurevalues$depth))  +
+  
+  ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4")) 
+
