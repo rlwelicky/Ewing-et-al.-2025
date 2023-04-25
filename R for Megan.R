@@ -371,6 +371,8 @@ lionlong1<-liondata%>%
 lionlong2<-lionlong1%>%
   pivot_wider(names_from = isotope, values_from = value)
 
+write.csv(lionlong2, "lionlong2.csv")
+
   ellipsefig.depthcat<-ggplot(data = lionlong2) +
   aes(x = c, y = n, color = depth_categorical, shape = tissue) +
   #geom_point(size=2)  +
@@ -462,20 +464,24 @@ ggsave("iso_scatter.jpg")
 
 
 
-
+lionlong3<-read.csv("lionlong3.csv", header=TRUE)
 
 try9<- ggplot() +
   
-  stat_ellipse((aes( x = lionlong2$c, y = lionlong2$n, group =  lionlong2$tissuedepth)),position = "identity", level = 0.95, size = 1, linetype = 2) +  
+  stat_ellipse((aes( x = lionlong3$c, y = lionlong3$n, group =  lionlong3$tissuedepth)),position = "identity", level = 0.95, size = 1, linetype = 2, fill = lionlong3$tissuedepth) +  
   
-  scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4")) +
+  #scale_color_manual(values = c("deep_heart" = "#2815d4", "shallow_heart" = "#15c4d4"))   +
   
-  
-  geom_point(aes(x = figurevalues$meanC, y = figurevalues$meanN, shape = figurevalues$tissue, color = figurevalues$depth), size = 4) +
-  
-  geom_errorbar(aes(x=figurevalues$meanC,  ymin = (figurevalues$meanN-figurevalues$sdN),ymax = (figurevalues$meanN + figurevalues$sdN), color = figurevalues$depth), width = 0.1) + 
-  
-  geom_errorbarh(aes(y =figurevalues$meanN, xmin = (figurevalues$meanC-figurevalues$sdC),xmax = (figurevalues$meanC +figurevalues$sdC), color=figurevalues$depth))  +
-  
-  ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) + scale_color_manual(values = c("deep" = "#2815d4", "shallow" = "#15c4d4")) 
+  ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) 
+
+
+
+
+
+
+try10<- ggplot(lionlong3, aes(x = c, y = n, color = tissuedepth)) +
+  stat_ellipse(geom = "polygon", aes(fill = tissuedepth),  alpha = 0.7, position = "identity", level = 0.95, size = 1) + 
+  scale_color_manual(values = c("heart_deep" = "#2815d4", "heart_shallow" = "#15c4d4", "scale_deep" = "#2815d4", "scale_shallow" = "#15c4d4", "muscle_deep" = "#2815d4", "muscle_shallow" = "#15c4d4")) +
+  scale_fill_manual(values = c("scale_deep" = "#B90A0A", "scale_shallow" = "#B90A0A", "heart_deep" = "#FFE000", "heart_shallow" = "#FFE000", "muscle_deep" = "#08B835", "muscle_shallow" = "#08B835")) +
+  ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) 
 
