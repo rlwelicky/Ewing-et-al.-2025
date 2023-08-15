@@ -136,12 +136,21 @@ h<-ggplot(data = descriptivestats) +
 #CARBON
 
 hist(liondata$muscle_c)
-#lets check out the distribution of muscle carbon
+#lets check out the distribution of muscle carbon--categorical
 normalitymuscle_c<-glm(muscle_c~depth_categorical, data = liondata)
 resmuscle_c<-simulateResiduals(fittedModel = normalitymuscle_c, n = 250)
 plot(resmuscle_c)
 resmuscle_c$scaledResiduals
 testUniformity(resmuscle_c)
+#if we just do a shapiro wilk test, not enough data
+shapiro.test(liondata$muscle_c)
+#lets check out the distribution of muscle carbon--categorical
+normalitymuscle_c<-glm(muscle_c~depth_capture_avg_m, data = liondata)
+resmuscle_c<-simulateResiduals(fittedModel = normalitymuscle_c, n = 250)
+plot(resmuscle_c)
+resmuscle_c$scaledResiduals
+testUniformity(resmuscle_c)
+
 
 hist(liondata$scale_c)
 #lets check out the distribution of scale carbon
@@ -150,6 +159,18 @@ resscale_c<-simulateResiduals(fittedModel = normalityscale_c, n = 250)
 plot(resscale_c)
 resscale_c$scaledResiduals
 testUniformity(resscale_c) #not normal
+shapiro.test(liondata$scale_c)
+
+#lets check out the distribution of scale carbon
+normalityscale_c<-glm(scale_c~depth_capture_avg_m, data = liondata)
+resscale_c<-simulateResiduals(fittedModel = normalityscale_c, n = 250)
+plot(resscale_c)
+resscale_c$scaledResiduals
+testUniformity(resscale_c) #not normal
+shapiro.test(liondata$scale_c)
+
+
+
 
 hist(liondata$heart_c)
 #lets check out the distribution of heart carbon
@@ -158,8 +179,23 @@ resheart_c<-simulateResiduals(fittedModel = normalityheart_c, n = 250)
 plot(resheart_c)
 resheart_c$scaledResiduals
 testUniformity(resheart_c)
+testUniformity(normalityheart_c)
+shapiro.test(liondata$heart_c)
+
+
+#lets check out the distribution of heart carbon  quant
+normalityheart_c<-glm(heart_c~depth_capture_avg_m, data = liondata)
+resheart_c<-simulateResiduals(fittedModel = normalityheart_c, n = 250)
+plot(resheart_c)
+resheart_c$scaledResiduals
+testUniformity(resheart_c)
+testUniformity(normalityheart_c) #too few data for quick test without residuals
+
 
 #NITROGEN
+
+
+
 
 hist(liondata$muscle_n)
 #lets check out the distribution of muscle nitrogen
@@ -168,22 +204,57 @@ resmuscle_n<-simulateResiduals(fittedModel = normalitymuscle_n, n = 250)
 plot(resmuscle_n)
 resmuscle_n$scaledResiduals
 testUniformity(resmuscle_n)
+shapiro.test(liondata$muscle_n)
 
 hist(liondata$scale_n)
+
+#lets check out the distribution of muscle nitrogen quant
+normalitymuscle_n<-glm(muscle_n~depth_capture_avg_m data = liondata)
+resmuscle_n<-simulateResiduals(fittedModel = normalitymuscle_n, n = 250)
+plot(resmuscle_n)
+resmuscle_n$scaledResiduals
+testUniformity(resmuscle_n)
+shapiro.test(liondata$muscle_n) #this is also not right bc it doesn't factor in depth. just running it to check it anyways
+
+
+
+
 #lets check out the distribution of scale nitrogen
 normalityscale_n<-glm(scale_n~depth_categorical, data = liondata)
 resscale_n<-simulateResiduals(fittedModel = normalityscale_n, n = 250)
 plot(resscale_n)
 resscale_n$scaledResiduals
 testUniformity(resscale_n)
+shapiro.test(liondata$scale_n)
 
 hist(liondata$heart_n)
+
+
+#lets check out the distribution of scale nitrogen quant
+normalityscale_n<-glm(scale_n~depth_capture_avg_m, data = liondata)
+resscale_n<-simulateResiduals(fittedModel = normalityscale_n, n = 250)
+plot(resscale_n)
+resscale_n$scaledResiduals
+testUniformity(resscale_n)
+shapiro.test(liondata$scale_n)
+
+
+
 #lets check out the distribution of heart nitrogen
 normalityheart_n<-glm(heart_n~depth_categorical, data = liondata)
 resheart_n<-simulateResiduals(fittedModel = normalityheart_n, n = 250)
 plot(resheart_n)
 resheart_n$scaledResiduals
 testUniformity(resheart_n)
+shapiro.test(liondata$heart_n)
+
+#lets check out the distribution of heart nitrogen quant
+normalityheart_n<-glm(heart_n~depth_capture_avg_m, data = liondata)
+resheart_n<-simulateResiduals(fittedModel = normalityheart_n, n = 250)
+plot(resheart_n)
+resheart_n$scaledResiduals
+testUniformity(resheart_n)
+shapiro.test(liondata$heart_n)
 
 #How does depth influence the diet of lionfish (using muscle tissue)? This format is response variable ~ indp factor + indp factor + indfactor interacts with other indp factor. We are using SL.mm*depth.categorical bc its likely at shallow depths there is more culling and so we might only find smaller/younger lionfish.  Repeat this formatting for scale and heart. 
 
@@ -484,4 +555,45 @@ try10<- ggplot(lionlong3, aes(x = c, y = n, color = tissuedepth)) +
   scale_color_manual(values = c("heart_deep" = "#2815d4", "heart_shallow" = "#15c4d4", "scale_deep" = "#2815d4", "scale_shallow" = "#15c4d4", "muscle_deep" = "#2815d4", "muscle_shallow" = "#15c4d4")) +
   scale_fill_manual(values = c("scale_deep" = "#B90A0A", "scale_shallow" = "#B90A0A", "heart_deep" = "#FFE000", "heart_shallow" = "#FFE000", "muscle_deep" = "#08B835", "muscle_shallow" = "#08B835")) +
   ylab(expression(δ^{15}*"N"*" (‰)")) + xlab(expression(δ^{13}*"C"*" (‰)")) + theme_classic() + theme(legend.position = "right", legend.title=element_blank()) 
+
+#are the C13 vs depth data outliers_scale?
+boxplot(liondata$scale_c)
+quantile(liondata$scale_c)
+IQR(liondata$scale_c)
+#A data point on the high end of the distribution is an outlier if its value is > Q3 + 1.5 * IQR
+# so, -13.985 + (1.5*0.7325) = -12.88625; the upper value is >, so it is a true outlier, value we have is -9.6
+-13.985 + (1.5*0.7325) 
+#A data point on the lower end of the distribution is an outlier if its value is < Q1 - 1.5 * IQR
+# so, -14.7175 - (1.5*0.7325) = -15.81625; no outliers
+
+#are the C13 vs depth data outliers_muscle?
+boxplot(liondata$muscle_c)
+quantile(liondata$muscle_c)
+IQR(liondata$muscle_c)
+#A data point on the high end of the distribution is an outlier if its value is > Q3 + 1.5 * IQR
+#so, -16.4975 + (1.5*0.88875) = -15.16437; values we have are -12.140
+-16.4975 + (1.5*0.88875)
+#A data point on the lower end of the distribution is an outlier if its value is < Q1 - 1.5 * IQR
+#so, -17.38625 - (1.5*0.88875) = -18.71937
+-17.38625 - (1.5*0.88875)
+
+
+#are the C13 vs depth data outliers_heart?
+boxplot(liondata$heart_c)
+quantile(liondata$heart_c)
+IQR(liondata$heart_c)
+#A data point on the high end of the distribution is an outlier if its value is > Q3 + 1.5 * IQR
+#so, -17.005 + (1.5*0.915) = -15.6325; -13.46 is an outlier
+-17.005 + (1.5*0.915)
+#A data point on the lower end of the distribution is an outlier if its value is < Q1 - 1.5 * IQR
+#so, -17.920 - (1.5*0.915) = -19.2925; -20.81 and -19.8 are outliers
+-17.920 - (1.5*0.915)
+
+
+var.test(liondata$heart_c, liondata$muscle_c, alternative = "two.sided")
+bartlett.test(heart_c ~ depth_categorical, data = liondata)
+bartlett.test(muscle_c ~ depth_categorical, data = liondata)
+bartlett.test(scale_c ~ depth_categorical, data = liondata)
+
+
 
