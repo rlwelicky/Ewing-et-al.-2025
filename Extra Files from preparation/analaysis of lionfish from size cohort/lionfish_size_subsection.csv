@@ -1,0 +1,32 @@
+number,fieldnumber,depth_capture_range_ft,depth_capture_avg_m,depth_avg,weight_g,SL_mm,TL_mm,sex,gonad_weight_g,guts_preserved,whole_fish_preserved,notes,gonad_index,"tissues_taken_for SIA ( S = Scale, M = Muscle, H = Heart)",depth_categorical,muscle_c,muscle_ctotal,muscle_n,muscle_ntotal,scale_c,scale_ctotal,scale_n,scale_ntotal,heart_c,heart_ctotal,heart_n,heart_ntotal,calibration
+CUR_LION19064,CURSH19-15,50-73,18.288,60,132,160,210,F,<1,YES,YES,immature,Early Developing ,"S, M, H",shallow,-16.09,184.38,8.99,56.98,-13.88,121.45,8.56,40.57,-16.56,188.915,8.295,49.355,average
+CUR_LION19066,CURSH19-15,50-73,22.2504,73,130,155,210,M,<1,YES,YES,,immature (virgin),"S, M, H",shallow,-16.21,186.095,8.725,56.845,-13.76,123.27,8.73,42.01,-16.25,182.64,8.11,49.45,average
+CUR_LION19047,CURSH19-13,65,16.4592,54,160,155,220,M,<1,YES,YES,immature,Immature (virgin),"S, M, H",shallow,-16.36,183.62,8.56,57.91,-13.87,118.62,8.46,41.12,-16.82,185.35,7.93,49.57,single
+CUR_LION19049,CURSH19-14,47-60,13.716,45,137,155,220,F,<1,YES,YES,immature,Immature/early developing,"S, M, H",shallow,-15.96,187.4,8.61,59.51,-13.57,123.41,8.49,43.78,-16.57,187.09,7.77,49.69,single
+CUR_LION19012,CURSH19-08,17 ft,5.1816,17,147,166,225,F,9,YES,YES,,Actively Spawning,"S, M, H",shallow,-17.4,183.81,8.99,57.14,-15.175,115.47,8.88,40.1,-17.92,182.31,8.62,49.36,average
+CUR_LION19051,CURSH19-14,47-60,18.288,60,149,160,225,?,<1,YES,YES,,immature (virgin),"S, M, H",shallow,-16.37,183.45,8.65,56.81,-13.8,121.9,8.35,41.94,-16.94,185.77,8.06,48.78,single
+CUR_LION19023,CURSH19-10,30 - 65 ft,19.812,65,183,180,230,F,10,YES,YES,,Actively Spawning,"S, M, H",shallow,-16.165,190.17,9.08,59.195,-13.92,113.56,9.01,39.07,-16.97,178.9,8.57,47.81,average
+CUR_LION19065,CURSH19-15,50-73,15.24,50,211,185,235,F,<1,YES,YES,immature,Early developing,"S, M, H",shallow,-16.3,194.58,8.6,57.7,-13.865,126.77,8.51,43.615,-16.925,189.56,8.62,47.675,average
+CUR_LION19022,CURSH19-10,30 - 65 ft,13.716,45,178,183,240,M,Not Recorded,YES,YES,,Immature (virgin),"S, M, H",shallow,-16.52,189.9,8.72,60.26,-14.41,124.67,8.59,41.29,-17.17,178.74,8.41,48.71,single
+CUR_LION19067,CURSH19-15,50-73,19.812,65,175,175,240,F,<1,YES,YES,"immature, previously sexed as M",early developing,"S, M, H",shallow,-16.34,190.48,8.81,58.86,-14.32,120.16,8.36,40.34,-17.13,186.69,8.3,49.2,single
+CUR_LION19017,CURSH19-09,40 - 80 ft,15.24,50,181,183,247,M,Not Recorded,YES,YES,,Spawning capable,"S, M, H",shallow,-16.69,192.51,8.575,61.1,-14.29,110.28,8.36,37.74,-17.27,175.02,8.3,45.89,average
+CUR_LION19018,CURSH19-09,40 - 80 ft,18.288,60,246,191,254,M,Not Recorded,YES,YES,,Spawning Capable,"S, M, H",shallow,-16.26,189.84,9.07,59.07,-13.97,122.79,8.88,42.76,-17.09,183.49,8.92,47.4,single
+CUR_LION19016,CURSH19-09,40 - 80 ft,12.192,40,259,196,258,M,Not Recorded,YES,YES,,Immature(virgin),"S, M, H",shallow,-17.05,194.08,8.84,56.45,-14.09,115.95,8.57,39.47,-17.26,180.07,9.02,47.29,single
+CUR_LION19008,CURSH19-07,45 - 90 ft,18.288,60,197,190,260,M,Not Recorded,YES,YES,Gonads not in bag,?,"S, M, H",shallow,-16.43,185.48,8.8,57.83,-13.89,114.39,8.52,39.59,-17.06,182.22,8.55,49.59,single
+CUR_LION19007,CURSH19-07,45 - 90 ft,18.288,60,237,200,265,F,22,YES,YES,,Actively spawning,"S, M, H",shallow,-18.08,201.55,9.22,49.78,-14.15,113.55,9.12,38.87,-16.67,184.38,8.2,51.59,single
+CUR_LION19024,CURASUB19-04,224 ft,68.2752,224,116,160,215,M,Not Recorded,YES,YES,,immature (virgin),"S, M, H",deep,-17.77,155.18,9.205,49.12,-15.78,123.4,9.21,42.39,-18.05,172.13,8.67,45.92,average
+CUR_LION19009,CURASUB19-03,,106.68,350,179,195,245,F,8,YES,YES,,Spawning capable,"S, M, H",deep,-16.025,184.135,9.135,57.78,-13.44,122.2,9.03,40.99,-17.11,179.29,9.22,47.21,average
+CUR_LION19011,CURSH19-08,200 ft,60.96,200,236,183,245,M,Not Recorded,YES,YES,,immature (virgin),"S, M, H",deep,-12.14,187.39,11.63,59.09,-9.6,122.31,11.73,42.14,-13.46,186.06,10.83,48.66,single
+CUR_LION19041,CURASUB19-06,445,135.636,445,168,190,250,F,4,YES,YES,,Spawning capable,"S, M, H",deep,-16.81,179.37,10.26,56.34,-13.87,116.62,9.48,40.23,-18.26,188.36,9.89,44.49,single
+CUR_LION19057,CURASUB19-07,305,92.964,305,183,195,250,F,1,YES,YES,,developing,"S, M, H",deep,-17.17,195.02,9.41,58.26,-14.29,121.72,8.82,41.59,-18.07,188.3,9.41,48.43,single
+CUR_LION19061,CURASUB19-07,314,95.7072,314,202,190,252,F,19,YES,YES,,Actively Spawning,"S,M,H",deep,-17.32,187.95,9.41,58.58,-14.92,111.4,9.22,37.61,-18.38,189.72,9.71,49.25,single
+CUR_LION19034,CURASUB19-05,300 ft,91.44,300,196,190,255,F,5,YES,YES,,Spawning capable,"S, M, H",deep,-17.995,179.905,9.125,54.99,-15.27,114.76,8.96,38.77,-18.63,189.36,8.86,50.16,average
+CUR_LION19026,CURASUB19-04,290 ft,88.392,290,216,205,265,F,7,YES,YES,,Spawning capable,"S, M, H",deep,-17.39,182.85,9.55,57.74,-15.02,112.62,9.01,37.34,-17.28,187.98,8.25,53.82,single
+CUR_LION19031,CURASUB19-04,390 ft,118.872,390,248,204,268,F,9,YES,YES,,Spawning Capable,"S, M, H",deep,-16.96,185.04,9.95,54.75,-14.42,106.6,9.06,36.23,-17.9,185.79,9.93,47.96,single
+CUR_LION19030,CURASUB19-04,370 ft,112.776,370,275,212,270,M,Not Recorded,YES,YES,Gonads not in bag,?,"S, M, H",deep,-17.035,180,9.975,56.72,-14.82,110.31,9.53,37.37,-17.97,185.43,10.24,48.32,average
+CUR_LION19042,CURASUB19-06,420,128.016,420,240,200,270,F,6,YES,YES,,Spawning Capable,"S, M, H",deep,-16.43,184.4,9.89,59.12,-13.65,118.74,9.39,40.965,-17.59,178.06,10.69,45,average
+CUR_LION19060,CURASUB19-07,373,113.6904,373,236,299,270,F,6,YES,YES,,Spawning Capable,"S, M, H",deep,-17.385,191.17,10.14,60.32,-14.18,109.48,9.44,38.23,-18.04,182.83,9.79,47.32,average
+CUR_LION19062,CURASUB19-07,275,83.82,275,205,197,270,F,6,YES,YES,,Spawning capable,"S, M, H",deep,-17.22,174.055,8.98,55.095,-14.8,120.64,8.68,41.79,-19.8,189.69,11.22,42.94,average
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,16.33728,99.78683077,,,,,,,,,,,,,,,,,,,,,,,
